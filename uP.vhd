@@ -83,10 +83,10 @@ architecture str of uP is
 	component regfile port(
 		clk: in std_logic;                                    
 	   we3: in std_logic;                                     -- habilitar escritura de datos
-		ra1, ra2: in std_logic_vector(2 downto 0);        		-- direcciones de lectur
-		wa3 : in std_logic_vector(2 downto 0);						--direcciones de escritura
-		wd3: in std_logic_vector(15 downto 0);                 -- datos para escritura    
-		rd1, rd2: out std_logic_vector(15 downto 0)            -- datos para lectura
+		ra1, ra2: in std_logic_vector(2 downto 0);        		-- read addresses
+		wa3 : in std_logic_vector(2 downto 0);						-- write address
+		wd3: in std_logic_vector(15 downto 0);                 -- write data    
+		rd1, rd2: out std_logic_vector(15 downto 0)            -- read data
 		 );    
 	end component;
 
@@ -121,7 +121,7 @@ architecture str of uP is
 	 
 	component Control_U
 		port(
-	--RegWrite,MemReg, MemW, BranchD, AluControl[3], AluSource,Sel
+	-- Control word: Jump, RegWrite, MemRead, MemWrite, Branch, ALUControl, ALUSrc, RegSource, FormatSelect
 			Inst : in std_logic_vector(4 downto 0);
 			CBus : out std_logic_vector(12 downto 0)
 		);
@@ -139,7 +139,7 @@ architecture str of uP is
 	signal Data0,Data1,PC,PCF,PC1,PC1R,PC1RR:  std_logic_vector(7 downto 0);
 	signal PC2,PC2R,PC2Mx :  std_logic_vector(15 downto 0);
 	signal DIM,DIMR,resultW,RD1,RD2,RD1R,RD2R,RD2RR,SE,SER,SERMx,SRBE,AO,AOR,AORR,RDW,RDWR:  std_logic_vector(15 downto 0);
-	signal PCsrcM,Z,ZR,CMP,CMPR,zero,Branch : std_logic;
+	signal PCsrcM,Z,ZR,CMP,CMPR,Branch : std_logic;
 	signal RegWD,RegWE,RegWM,RegWW : std_logic;
 	signal MemRD,MemRE,MemRM,MemRW : std_logic;
 	signal MemWD,MemWE,MemWM : std_logic;
@@ -444,15 +444,10 @@ begin
 		
 		
 	Branch <= BranE(0) and BranE(1) and BranE(2);
-	--JMPr <= JumpE;
 	contadorP <= PCSOURCE;
-	--ALU11 <= MemWM &"00000" & AOR(4 downto 0);
 	ALU11 <= RD1R(10 downto 0);
 	ALU22 <= SRBE(10 downto 0);
 	PCsrcM <= (BranM(0) and ZR) or (BranM(1) and CMPR) or(BranM(2) and (ZR or CMPR)) or JumpM;
-	--Q_out <= Data0;
-	--RD1out <= RD1;
-	--Aout <= AO;
 	
 end str;
 
