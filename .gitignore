@@ -1,0 +1,20 @@
+@"
+# Quartus generated directories
+db/
+incremental_db/
+output_files/
+
+# ModelSim / Quartus simulation output
+simulation/qsim/
+
+# Quartus backup and temporary files
+*.bak
+*.qws
+*.smsg
+*.jdi
+c5_pin_model_dump.txt
+
+# Windows
+Thumbs.db
+Desktop.ini
+"@ | Set-Content .gitignore
