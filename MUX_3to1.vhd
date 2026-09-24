@@ -4,11 +4,11 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity MUX_3to1 is
-    Port ( A00 : in STD_LOGIC_VECTOR(15 downto 0);   -- Entrada 1: vector de 4 bits
-           B01 : in STD_LOGIC_VECTOR(15 downto 0);   -- Entrada 2: vector de 4 bits
-           C10 : in STD_LOGIC_VECTOR(15 downto 0);   -- Entrada 3: vector de 4 bits
-           S : in STD_LOGIC_VECTOR(1 downto 0);   -- Señales de selección
-           Y : out STD_LOGIC_VECTOR(15 downto 0)   -- Salida: vector de 4 bits
+    Port ( A00 : in STD_LOGIC_VECTOR(15 downto 0);   -- 16-bit input A
+           B01 : in STD_LOGIC_VECTOR(15 downto 0);   -- 16-bit input B
+           C10 : in STD_LOGIC_VECTOR(15 downto 0);   -- 16-bit input C
+           S : in STD_LOGIC_VECTOR(1 downto 0);   -- Select
+           Y : out STD_LOGIC_VECTOR(15 downto 0)   -- 16-bit output
            );
 end MUX_3to1;
 
@@ -18,13 +18,13 @@ begin
     begin
         case S is
             when "00" =>
-                Y <= A00;  -- Selecciona A
+                Y <= A00;
             when "01" =>
-                Y <= B01;  -- Selecciona B
+                Y <= B01;
             when "10" =>
-                Y <= C10;  -- Selecciona C
+                Y <= C10;
             when others =>
-                Y <= (others => '0');  -- Estado por defecto
+                Y <= (others => '0');  -- default
         end case;
     end process;
 end Behavioral;
